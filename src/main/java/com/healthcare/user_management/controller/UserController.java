@@ -1,6 +1,7 @@
 package com.healthcare.user_management.controller;
 
 import com.healthcare.user_management.dto.NewUserRequestDTO;
+import com.healthcare.user_management.dto.UpdateUserDTO;
 import com.healthcare.user_management.dto.UserResponseDTO;
 import com.healthcare.user_management.service.UserService;
 import com.healthcare.user_management.service.implementation.UserServiceImplementation;
@@ -36,5 +37,16 @@ public class UserController {
     @PostMapping("new")
     public ResponseEntity<?> addNewUser(@RequestBody NewUserRequestDTO newUserRequestDTO){
         return userService.newUser(newUserRequestDTO);
+    }
+
+    /**
+     * This controller handles put requests to modify user information
+     * @param userId
+     * @param updateUserDTO
+     * @return
+     */
+    @PutMapping("update")
+    public ResponseEntity<?> updateUser(@RequestParam Integer userId, @RequestBody UpdateUserDTO updateUserDTO){
+        return userService.updateUser(userId,updateUserDTO);
     }
 }

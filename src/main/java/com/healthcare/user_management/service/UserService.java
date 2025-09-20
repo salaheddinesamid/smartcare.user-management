@@ -2,6 +2,7 @@ package com.healthcare.user_management.service;
 
 import com.healthcare.user_management.dto.NewUserRequestDTO;
 import com.healthcare.user_management.dto.NewUserResponseDTO;
+import com.healthcare.user_management.dto.UpdateUserDTO;
 import com.healthcare.user_management.dto.UserResponseDTO;
 import org.springframework.http.ResponseEntity;
 
@@ -28,6 +29,14 @@ public interface UserService {
      * @return
      */
     UserResponseDTO getUser(String email);
+
+    /**
+     * This method update the user information
+     * @param updateUserDTO
+     * @param id
+     * @return UserResponseDTO with the new user information
+     */
+    ResponseEntity<?> updateUser(Integer id,UpdateUserDTO updateUserDTO);
 
 
     /**

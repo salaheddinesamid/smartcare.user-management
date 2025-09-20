@@ -3,6 +3,7 @@ package com.healthcare.user_management.service.implementation;
 
 import com.healthcare.user_management.dto.NewUserRequestDTO;
 import com.healthcare.user_management.dto.NewUserResponseDTO;
+import com.healthcare.user_management.dto.UpdateUserDTO;
 import com.healthcare.user_management.dto.UserResponseDTO;
 import com.healthcare.user_management.model.Role;
 import com.healthcare.user_management.model.RoleEnum;
@@ -87,6 +88,25 @@ public class UserServiceImplementation implements UserService {
     @Override
     public UserResponseDTO getUser(String email) {
         return null;
+    }
+
+    @Override
+    public ResponseEntity<?> updateUser(Integer id, UpdateUserDTO updateUserDTO) {
+        // Fetch the user from the database
+        User user = userRepository
+                .findById(id).orElseThrow();
+        // Update user information:
+        user.setFirstName(updateUserDTO.getFirstName());
+        user.setLastName(updateUserDTO.getLastName());
+        user.setEmail(updateUserDTO.getEmail());
+        user.setPassword(passwordEncoder.encode(updateUserDTO.getPassword()));
+
+        // Save the changes
+        userRepository.save(user);
+
+        // return the response to the client
+        return ResponseEntity
+                .status(200).body(new UserResponseDTO(user));
     }
 
     @Override
