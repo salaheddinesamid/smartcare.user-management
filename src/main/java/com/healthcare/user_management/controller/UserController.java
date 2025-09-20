@@ -1,12 +1,12 @@
 package com.healthcare.user_management.controller;
 
+import com.healthcare.user_management.dto.NewUserRequestDTO;
 import com.healthcare.user_management.dto.UserResponseDTO;
 import com.healthcare.user_management.service.UserService;
 import com.healthcare.user_management.service.implementation.UserServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,5 +27,14 @@ public class UserController {
     @GetMapping("get_all")
     public List<UserResponseDTO> getUsers(){
         return userService.getAllUsers();
+    }
+
+    /**
+     *
+     */
+
+    @PostMapping("new")
+    public ResponseEntity<?> addNewUser(@RequestBody NewUserRequestDTO newUserRequestDTO){
+        return userService.newUser(newUserRequestDTO);
     }
 }
