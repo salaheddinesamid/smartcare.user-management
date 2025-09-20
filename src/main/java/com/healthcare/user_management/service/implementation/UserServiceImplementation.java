@@ -15,8 +15,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collector;
 
 @Service
 public class UserServiceImplementation implements UserService {
@@ -54,6 +56,9 @@ public class UserServiceImplementation implements UserService {
 
         );
 
+        // Save the user:
+        userRepository.save(user);
+
         // Construct the response:
         NewUserResponseDTO newUserResponseDTO = new NewUserResponseDTO(user);
 
@@ -63,9 +68,22 @@ public class UserServiceImplementation implements UserService {
 
     }
 
+
+    /**
+     * This method returns all the users in the database
+     * @return List<UserResponseDTO>
+     */
     @Override
     public List<UserResponseDTO> getAllUsers() {
-        return List.of();
+
+        // fetch all the users from the database
+        List<User> users = userRepository.findAll();
+        return users.stream()
+                .map(user -> {
+                    UserResponseDTO response = new UserResponseDTO(user);
+                    return response;
+                })
+                .toList();
     }
 
     @Override

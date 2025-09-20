@@ -13,7 +13,7 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer roleId;
 
-    @Column(name = "role_name")
+    @Column(name = "role_name", length = 200)
     @Enumerated(EnumType.STRING)
     private RoleEnum roleName;
 }
