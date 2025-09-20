@@ -4,16 +4,63 @@ package com.healthcare.user_management.service.implementation;
 import com.healthcare.user_management.dto.NewUserRequestDTO;
 import com.healthcare.user_management.dto.NewUserResponseDTO;
 import com.healthcare.user_management.dto.UserResponseDTO;
+import com.healthcare.user_management.model.Role;
+import com.healthcare.user_management.model.RoleEnum;
+import com.healthcare.user_management.model.User;
+import com.healthcare.user_management.repo.RoleRepository;
+import com.healthcare.user_management.repo.UserRepository;
 import com.healthcare.user_management.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class UserServiceImplementation implements UserService {
+
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
+
+    @Autowired
+    public UserServiceImplementation(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
+
     @Override
-    public NewUserResponseDTO newUser(NewUserRequestDTO newUserRequestDTO) {
-        return null;
+    public ResponseEntity<?> newUser(NewUserRequestDTO newUserRequestDTO) {
+
+        // Check if the user already exists
+        if (userRepository.existsByEmail(newUserRequestDTO.getEmail())){
+            return ResponseEntity.status(403).body(
+                    Map.of("error","This user already exists")
+            );
+        }
+
+        // Create new User
+        Role role = roleRepository.findByRoleName(RoleEnum.valueOf(newUserRequestDTO.getRoleName()))
+                .orElseThrow();
+        User user = new User(
+                newUserRequestDTO.getFirstName(),
+                newUserRequestDTO.getLastName(),
+                newUserRequestDTO.getEmail(),
+                passwordEncoder.encode(newUserRequestDTO.getPassword()),
+                role
+
+        );
+
+        // Construct the response:
+        NewUserResponseDTO newUserResponseDTO = new NewUserResponseDTO(user);
+
+        // return the response to the client:
+        return ResponseEntity.status(200)
+                .body(newUserResponseDTO);
+
     }
 
     @Override

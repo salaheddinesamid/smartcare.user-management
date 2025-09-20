@@ -3,6 +3,7 @@ package com.healthcare.user_management.service;
 import com.healthcare.user_management.dto.NewUserRequestDTO;
 import com.healthcare.user_management.dto.NewUserResponseDTO;
 import com.healthcare.user_management.dto.UserResponseDTO;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -13,7 +14,7 @@ public interface UserService {
      * @param newUserRequestDTO
      * @return a newUserResponseDTO object that contains user information
      */
-    NewUserResponseDTO newUser(NewUserRequestDTO newUserRequestDTO);
+    ResponseEntity<?> newUser(NewUserRequestDTO newUserRequestDTO);
 
     /**
      * This method returns all the existing users
