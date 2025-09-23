@@ -43,5 +43,5 @@ public interface UserService {
      * This method is responsible for removing a given user based on the ID
      * @param id
      */
-    void removeUser(int id);
+    ResponseEntity<?> removeUser(int id);
 }

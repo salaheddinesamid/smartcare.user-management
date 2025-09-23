@@ -109,8 +109,18 @@ public class UserServiceImplementation implements UserService {
                 .status(200).body(new UserResponseDTO(user));
     }
 
+    /**
+     * This method used to remove user account from the database
+     * @param id
+     */
     @Override
-    public void removeUser(int id) {
+    public ResponseEntity<?> removeUser(int id) {
+        User user = userRepository.findById(id) // Fetch the user from db, otherwise throw an exception
+                .orElseThrow();
+        userRepository.delete(user);
+
+        return ResponseEntity.status(200)
+                .body(Map.of("message","The user has been deleted"));
 
     }
 }
