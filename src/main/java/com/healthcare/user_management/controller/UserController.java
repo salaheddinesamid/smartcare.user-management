@@ -1,8 +1,6 @@
 package com.healthcare.user_management.controller;
 
-import com.healthcare.user_management.dto.NewUserRequestDTO;
-import com.healthcare.user_management.dto.UpdateUserDTO;
-import com.healthcare.user_management.dto.UserResponseDTO;
+import com.healthcare.user_management.dto.*;
 import com.healthcare.user_management.service.implementation.UserServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,8 +23,15 @@ public class UserController {
      *
      */
     @GetMapping("get_all")
-    public List<UserResponseDTO> getUsers(){
-        return userService.getAllUsers();
+    public ResponseEntity<ApiResponse<?>> getUsers(){
+        List<UserResponseDTO> users = userService.getAllUsers();
+        ApiResponse<List<UserResponseDTO>> response = new ApiResponse<>(
+                true,
+                "",
+                users
+        );
+        return ResponseEntity.status(200)
+                .body(response);
     }
 
     /**
@@ -34,8 +39,17 @@ public class UserController {
      */
 
     @PostMapping("new")
-    public ResponseEntity<?> addNewUser(@RequestBody NewUserRequestDTO newUserRequestDTO){
-        return userService.newUser(newUserRequestDTO);
+    public ResponseEntity<ApiResponse<?>> addNewUser(@RequestBody NewUserRequestDTO newUserRequestDTO){
+        NewUserResponseDTO user = userService.newUser(newUserRequestDTO);
+
+        ApiResponse<NewUserResponseDTO> response = new ApiResponse<>(
+                true,
+                "New user added successfully",
+                user
+        );
+
+        return ResponseEntity.status(200)
+                .body(response);
     }
 
     /**
