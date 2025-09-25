@@ -15,7 +15,7 @@ public interface UserService {
      * @param newUserRequestDTO
      * @return a newUserResponseDTO object that contains user information
      */
-    ResponseEntity<?> newUser(NewUserRequestDTO newUserRequestDTO);
+    NewUserResponseDTO newUser(NewUserRequestDTO newUserRequestDTO);
 
     /**
      * This method returns all the existing users

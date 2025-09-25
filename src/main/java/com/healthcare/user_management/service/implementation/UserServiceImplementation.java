@@ -5,6 +5,7 @@ import com.healthcare.user_management.dto.NewUserRequestDTO;
 import com.healthcare.user_management.dto.NewUserResponseDTO;
 import com.healthcare.user_management.dto.UpdateUserDTO;
 import com.healthcare.user_management.dto.UserResponseDTO;
+import com.healthcare.user_management.exception.UserAlreadyExistsException;
 import com.healthcare.user_management.model.Role;
 import com.healthcare.user_management.model.RoleEnum;
 import com.healthcare.user_management.model.User;
@@ -34,13 +35,11 @@ public class UserServiceImplementation implements UserService {
     }
 
     @Override
-    public ResponseEntity<?> newUser(NewUserRequestDTO newUserRequestDTO) {
+    public NewUserResponseDTO newUser(NewUserRequestDTO newUserRequestDTO) {
 
         // Check if the user already exists
         if (userRepository.existsByEmail(newUserRequestDTO.getEmail())){
-            return ResponseEntity.status(403).body(
-                    Map.of("error","This user already exists")
-            );
+            throw new UserAlreadyExistsException();
         }
 
         // Create new User
@@ -59,12 +58,7 @@ public class UserServiceImplementation implements UserService {
         userRepository.save(user);
 
         // Construct the response:
-        NewUserResponseDTO newUserResponseDTO = new NewUserResponseDTO(user);
-
-        // return the response to the client:
-        return ResponseEntity.status(200)
-                .body(newUserResponseDTO);
-
+        return new NewUserResponseDTO(user);
     }
 
 
