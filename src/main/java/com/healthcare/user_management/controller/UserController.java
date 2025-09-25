@@ -60,8 +60,18 @@ public class UserController {
      * @return
      */
     @PutMapping("update")
-    public ResponseEntity<?> updateUser(@RequestParam Integer userId, @RequestBody UpdateUserDTO updateUserDTO){
-        return userService.updateUser(userId,updateUserDTO);
+    public ResponseEntity<ApiResponse<?>> updateUser(@RequestParam Integer userId, @RequestBody UpdateUserDTO updateUserDTO){
+        UserResponseDTO updateUser = userService.updateUser(userId,updateUserDTO);
+
+        ApiResponse<?> response = new ApiResponse<>(
+                true,
+                "User updated successfully",
+                updateUser
+        );
+
+        return
+                ResponseEntity.status(200)
+                        .body(response);
     }
 
 
@@ -71,7 +81,13 @@ public class UserController {
      * @return
      */
     @DeleteMapping("delete/{id}")
-    public ResponseEntity<?> removeUser(@PathVariable Integer id){
-        return userService.removeUser(id);
+    public ResponseEntity<ApiResponse<?>> removeUser(@PathVariable Integer id){
+        return ResponseEntity
+                .status(200)
+                .body(new ApiResponse<>(
+                        true,
+                        "The user has been deleted",
+                        null
+                ));
     }
 }

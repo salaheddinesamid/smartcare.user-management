@@ -36,12 +36,12 @@ public interface UserService {
      * @param id
      * @return UserResponseDTO with the new user information
      */
-    ResponseEntity<?> updateUser(Integer id,UpdateUserDTO updateUserDTO);
+    UserResponseDTO updateUser(Integer id,UpdateUserDTO updateUserDTO);
 
 
     /**
      * This method is responsible for removing a given user based on the ID
      * @param id
      */
-    ResponseEntity<?> removeUser(int id);
+    void removeUser(int id);
 }

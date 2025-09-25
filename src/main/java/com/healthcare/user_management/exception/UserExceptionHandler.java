@@ -18,4 +18,15 @@ public class UserExceptionHandler {
 
         return ResponseEntity.status(409).body(response); // 409 Conflict
     }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<ApiResponse<?>> handleUserNotFound(UserNotFoundException ex){
+        ApiResponse<?> response = new ApiResponse<>(
+                false,
+                ex.getMessage(),
+                null
+        );
+
+        return ResponseEntity.status(404).body(response); // 404 Conflict
+    }
 }

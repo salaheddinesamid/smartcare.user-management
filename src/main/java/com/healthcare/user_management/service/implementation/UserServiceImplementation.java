@@ -6,6 +6,7 @@ import com.healthcare.user_management.dto.NewUserResponseDTO;
 import com.healthcare.user_management.dto.UpdateUserDTO;
 import com.healthcare.user_management.dto.UserResponseDTO;
 import com.healthcare.user_management.exception.UserAlreadyExistsException;
+import com.healthcare.user_management.exception.UserNotFoundException;
 import com.healthcare.user_management.model.Role;
 import com.healthcare.user_management.model.RoleEnum;
 import com.healthcare.user_management.model.User;
@@ -78,10 +79,10 @@ public class UserServiceImplementation implements UserService {
     }
 
     @Override
-    public ResponseEntity<?> updateUser(Integer id, UpdateUserDTO updateUserDTO) {
+    public UserResponseDTO updateUser(Integer id, UpdateUserDTO updateUserDTO) {
         // Fetch the user from the database
         User user = userRepository
-                .findById(id).orElseThrow();
+                .findById(id).orElseThrow(UserNotFoundException::new);
         // Update user information:
         user.setFirstName(updateUserDTO.getFirstName());
         user.setLastName(updateUserDTO.getLastName());
@@ -92,8 +93,7 @@ public class UserServiceImplementation implements UserService {
         userRepository.save(user);
 
         // return the response to the client
-        return ResponseEntity
-                .status(200).body(new UserResponseDTO(user));
+        return new UserResponseDTO(user);
     }
 
     /**
@@ -101,13 +101,10 @@ public class UserServiceImplementation implements UserService {
      * @param id
      */
     @Override
-    public ResponseEntity<?> removeUser(int id) {
+    public void removeUser(int id) {
         User user = userRepository.findById(id) // Fetch the user from db, otherwise throw an exception
                 .orElseThrow();
         userRepository.delete(user);
-
-        return ResponseEntity.status(200)
-                .body(Map.of("message","The user has been deleted"));
 
     }
 }
