@@ -78,10 +78,7 @@ public class UserServiceImplementation implements UserService {
         // fetch all the users from the database
         List<User> users = userRepository.findAll();
         return users.stream()
-                .map(user -> {
-                    UserResponseDTO response = new UserResponseDTO(user);
-                    return response;
-                })
+                .map(UserResponseDTO::new)
                 .toList();
     }
 
