@@ -37,29 +37,25 @@ public class UserServiceImplementation implements UserService {
     @Override
     public NewUserResponseDTO newUser(NewUserRequestDTO newUserRequestDTO) {
 
-        // Check if the user already exists
-        if (userRepository.existsByEmail(newUserRequestDTO.getEmail())){
-            throw new UserAlreadyExistsException();
+        if (userRepository.existsByEmail(newUserRequestDTO.getEmail())) {
+            throw new UserAlreadyExistsException("User with email " + newUserRequestDTO.getEmail() + " already exists");
         }
 
-        // Create new User
-        Role role = roleRepository.findByRoleName(RoleEnum.valueOf(newUserRequestDTO.getRoleName()))
-                .orElseThrow();
+        Role role = roleRepository.findByRoleName(RoleEnum.valueOf(newUserRequestDTO.getRoleName().toUpperCase()))
+                .orElseThrow(() -> new RuntimeException("Role not found"));
+
         User user = new User(
                 newUserRequestDTO.getFirstName(),
                 newUserRequestDTO.getLastName(),
                 newUserRequestDTO.getEmail(),
                 passwordEncoder.encode(newUserRequestDTO.getPassword()),
                 role
-
         );
 
-        // Save the user:
         userRepository.save(user);
-
-        // Construct the response:
         return new NewUserResponseDTO(user);
     }
+
 
 
     /**

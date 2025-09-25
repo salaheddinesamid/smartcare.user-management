@@ -2,6 +2,7 @@ package com.healthcare.user_management.controller;
 
 import com.healthcare.user_management.dto.*;
 import com.healthcare.user_management.service.implementation.UserServiceImplementation;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,8 +39,8 @@ public class UserController {
      *
      */
 
-    @PostMapping("new")
-    public ResponseEntity<ApiResponse<?>> addNewUser(@RequestBody NewUserRequestDTO newUserRequestDTO){
+    @PostMapping("/new")
+    public ResponseEntity<ApiResponse<NewUserResponseDTO>> addNewUser(@Valid @RequestBody NewUserRequestDTO newUserRequestDTO) {
         NewUserResponseDTO user = userService.newUser(newUserRequestDTO);
 
         ApiResponse<NewUserResponseDTO> response = new ApiResponse<>(
@@ -48,9 +49,9 @@ public class UserController {
                 user
         );
 
-        return ResponseEntity.status(200)
-                .body(response);
+        return ResponseEntity.status(201).body(response); // 201 Created
     }
+
 
     /**
      * This controller handles put requests to modify user information

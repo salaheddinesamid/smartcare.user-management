@@ -6,17 +6,16 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
-public class UserException {
+public class UserExceptionHandler {
 
     @ExceptionHandler(UserAlreadyExistsException.class)
-    public ResponseEntity<ApiResponse<?>> userAlreadyExists(String message){
+    public ResponseEntity<ApiResponse<?>> handleUserAlreadyExists(UserAlreadyExistsException ex) {
         ApiResponse<?> response = new ApiResponse<>(
                 false,
-                "This user already exists",
+                ex.getMessage(),
                 null
         );
 
-        return ResponseEntity.status(405)
-                .body(response);
+        return ResponseEntity.status(409).body(response); // 409 Conflict
     }
 }
