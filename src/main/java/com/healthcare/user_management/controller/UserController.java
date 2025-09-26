@@ -91,4 +91,17 @@ public class UserController {
                         null
                 ));
     }
+
+    @GetMapping("/exists")
+    public ResponseEntity<ApiResponse<?>> checkUserExistence(@RequestParam String email){
+        boolean userExists = userService.checkExistence(email);
+        ApiResponse<?> response = new ApiResponse<>(
+                true,
+                "",
+                userExists
+        );
+
+        return ResponseEntity.status(200)
+                .body(response);
+    }
 }

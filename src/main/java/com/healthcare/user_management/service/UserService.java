@@ -44,4 +44,6 @@ public interface UserService {
      * @param id
      */
     void removeUser(int id);
+
+    boolean checkExistence(String email);
 }
