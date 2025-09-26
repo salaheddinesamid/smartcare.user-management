@@ -10,6 +10,7 @@ public class UserResponseDTO {
     private String firstName;
     private String lastName;
     private String email;
+    private String password;
     private String role;
 
     public UserResponseDTO(User user){
@@ -18,5 +19,6 @@ public class UserResponseDTO {
         this.userId = user.getUserId();
         this.email = user.getEmail();
         this.role = user.getRole().getRoleName().toString();
+        this.password = user.getPassword();
     }
 }

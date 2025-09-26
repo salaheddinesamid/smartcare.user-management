@@ -75,7 +75,11 @@ public class UserServiceImplementation implements UserService {
 
     @Override
     public UserResponseDTO getUser(String email) {
-        return null;
+        User user =
+                userRepository.findByEmail(email)
+                        .orElseThrow();
+
+        return new UserResponseDTO(user);
     }
 
     @Override

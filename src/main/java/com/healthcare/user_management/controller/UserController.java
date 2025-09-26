@@ -35,6 +35,18 @@ public class UserController {
                 .body(response);
     }
 
+    @GetMapping("get")
+    public ResponseEntity<ApiResponse<?>> fetchUser(@RequestParam String email){
+        UserResponseDTO user = userService.getUser(email);
+        ApiResponse<UserResponseDTO> response = new ApiResponse<>(
+                true,
+                "",
+                user
+        );
+        return ResponseEntity.status(200)
+                .body(response);
+    }
+
     /**
      *
      */
