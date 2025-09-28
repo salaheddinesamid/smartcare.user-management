@@ -131,4 +131,18 @@ public class UserController {
                 .status(200)
                 .body(response);
     }
+
+    @PostMapping("get-users")
+    public ResponseEntity<ApiResponse<List<UserResponseDTO>>> getUsers(@RequestBody List<Integer> ids){
+        List<UserResponseDTO> users = userService
+                .getUsers(ids);
+
+        return ResponseEntity
+                .status(200)
+                .body(new ApiResponse<>(
+                        true,
+                        "",
+                        users
+                ));
+    }
 }

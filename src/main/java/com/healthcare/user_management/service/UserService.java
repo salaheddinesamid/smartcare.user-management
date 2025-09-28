@@ -47,4 +47,12 @@ public interface UserService {
 
     boolean checkExistence(String email);
     boolean verifyUserCredentials(String email, String password);
+
+
+    /**
+     * This method is used to fetch list of users
+     * @param ids
+     * @return
+     */
+    List<UserResponseDTO> getUsers(List<Integer> ids);
 }

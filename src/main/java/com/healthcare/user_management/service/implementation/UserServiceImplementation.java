@@ -124,4 +124,19 @@ public class UserServiceImplementation implements UserService {
                 .findByEmail(email).orElseThrow(UserNotFoundException::new);
         return user.getEmail().equals(email) && passwordEncoder.matches(password,user.getPassword());
     }
+
+    @Override
+    public List<UserResponseDTO> getUsers(List<Integer> ids) {
+
+        // Fetch users and filter them based on ids:
+        List<User> users = userRepository.findAll()
+                .stream()
+                .filter(user -> ids.contains(user.getUserId()))
+                .toList();
+
+        return users.stream()
+                .map(UserResponseDTO::new)
+                .toList();
+
+    }
 }
