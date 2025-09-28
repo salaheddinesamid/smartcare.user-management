@@ -14,7 +14,6 @@ import com.healthcare.user_management.repo.RoleRepository;
 import com.healthcare.user_management.repo.UserRepository;
 import com.healthcare.user_management.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -116,5 +115,13 @@ public class UserServiceImplementation implements UserService {
     @Override
     public boolean checkExistence(String email) {
         return userRepository.existsByEmail(email);
+    }
+
+    @Override
+    public boolean verifyUserCredentials(String email, String password) {
+        // fetch the user:
+        User user = userRepository
+                .findByEmail(email).orElseThrow(UserNotFoundException::new);
+        return user.getEmail().equals(email) && passwordEncoder.matches(password,user.getPassword());
     }
 }

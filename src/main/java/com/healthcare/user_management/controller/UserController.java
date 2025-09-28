@@ -116,4 +116,19 @@ public class UserController {
         return ResponseEntity.status(200)
                 .body(response);
     }
+
+    @GetMapping("verify")
+    public ResponseEntity<ApiResponse<?>> verify(@RequestParam String email, @RequestParam String password){
+        boolean userVerified = userService.verifyUserCredentials(email,password);
+
+        ApiResponse<?> response = new ApiResponse<>(
+                true,
+                "The user credentials are correct",
+                userVerified
+        );
+
+        return ResponseEntity
+                .status(200)
+                .body(response);
+    }
 }

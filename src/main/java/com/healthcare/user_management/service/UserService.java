@@ -46,4 +46,5 @@ public interface UserService {
     void removeUser(int id);
 
     boolean checkExistence(String email);
+    boolean verifyUserCredentials(String email, String password);
 }
