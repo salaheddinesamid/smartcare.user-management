@@ -30,6 +30,8 @@ public interface UserService {
      */
     UserResponseDTO getUser(String email);
 
+    UserResponseDTO getUserById(Integer id);
+
     /**
      * This method update the user information
      * @param updateUserDTO

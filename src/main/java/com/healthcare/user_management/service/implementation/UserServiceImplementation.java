@@ -82,6 +82,14 @@ public class UserServiceImplementation implements UserService {
     }
 
     @Override
+    public UserResponseDTO getUserById(Integer userId){
+        User user =
+                userRepository.findById(userId).orElseThrow();
+
+        return new UserResponseDTO(user);
+    }
+
+    @Override
     public UserResponseDTO updateUser(Integer id, UpdateUserDTO updateUserDTO) {
         // Fetch the user from the database
         User user = userRepository

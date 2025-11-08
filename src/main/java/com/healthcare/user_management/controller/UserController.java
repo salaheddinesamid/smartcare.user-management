@@ -47,6 +47,20 @@ public class UserController {
                 .body(response);
     }
 
+    @GetMapping("get_by_id")
+    public ResponseEntity<ApiResponse<?>> fetchUserById(@RequestParam Integer userId){
+        UserResponseDTO user = userService.getUserById(userId);
+
+        ApiResponse<?> response = new ApiResponse<>(
+                true,
+                "",
+                user
+        );
+
+        return ResponseEntity.status(200)
+                .body(response);
+    }
+
     /**
      *
      */
