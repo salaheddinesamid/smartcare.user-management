@@ -1,0 +1,10 @@
+package com.healthcare.user_management.modules.user_management.model;
+
+public enum RoleEnum {
+
+    PATIENT,
+    DOCTOR,
+    ADMIN,
+    NURSE,
+    RECEPTIONIST
+}
