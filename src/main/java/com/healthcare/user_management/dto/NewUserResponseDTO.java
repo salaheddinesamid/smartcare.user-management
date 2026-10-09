@@ -1,6 +1,6 @@
 package com.healthcare.user_management.dto;
 
-import com.healthcare.user_management.model.User;
+import com.healthcare.user_management.modules.user_management.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;

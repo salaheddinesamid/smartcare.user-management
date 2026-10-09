@@ -1,12 +1,9 @@
 package com.healthcare.user_management.unit;
 
-import com.healthcare.user_management.repo.UserRepository;
 import com.healthcare.user_management.service.implementation.UserServiceImplementation;
-import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 /**

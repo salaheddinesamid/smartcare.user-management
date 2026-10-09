@@ -1,6 +1,5 @@
 package com.healthcare.user_management.modules.user_management.model;
 
-import com.healthcare.user_management.model.RoleEnum;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

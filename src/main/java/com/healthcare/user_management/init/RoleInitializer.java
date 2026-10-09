@@ -1,9 +1,8 @@
 package com.healthcare.user_management.init;
 
-import com.healthcare.user_management.UserManagementApplication;
-import com.healthcare.user_management.model.Role;
-import com.healthcare.user_management.model.RoleEnum;
-import com.healthcare.user_management.repo.RoleRepository;
+
+import com.healthcare.user_management.modules.user_management.model.RoleEnum;
+import com.healthcare.user_management.modules.user_management.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
