@@ -22,14 +22,15 @@ public class AuthenticationController {
     }
 
     @PostMapping("")
-    public ResponseEntity<ApiResponse> authenticate(@RequestBody LoginRequestDto requestDto){
+    public ResponseEntity<ApiResponse<LoginResponseDto>> authenticate(@RequestBody LoginRequestDto requestDto) {
         LoginResponseDto response = authenticationService.authenticate(requestDto);
 
-        return ResponseEntity.status(200)
-                .body(new ApiResponse(
-                      true,
-                      "",
-                      response
-                ));
+        return ResponseEntity.ok(
+                new ApiResponse<>(
+                        true,
+                        "",
+                        response
+                )
+        );
     }
 }
