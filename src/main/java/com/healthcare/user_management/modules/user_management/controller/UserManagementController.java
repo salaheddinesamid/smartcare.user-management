@@ -1,7 +1,9 @@
 package com.healthcare.user_management.modules.user_management.controller;
 
 import com.healthcare.user_management.dto.*;
+import com.healthcare.user_management.modules.user_management.service.implementation.UserAdderServiceImpl;
 import com.healthcare.user_management.modules.user_management.service.implementation.UserQueryServiceImpl;
+import com.healthcare.user_management.modules.user_management.service.implementation.UserUpdaterServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,9 +15,13 @@ import java.util.List;
 public class UserManagementController {
 
     private final UserQueryServiceImpl userQueryService;
+    private final UserAdderServiceImpl userAdderService;
+    private final UserUpdaterServiceImpl userUpdaterService;
 
-    public UserManagementController(UserQueryServiceImpl userQueryService) {
+    public UserManagementController(UserQueryServiceImpl userQueryService, UserAdderServiceImpl userAdderService, UserUpdaterServiceImpl userUpdaterService) {
         this.userQueryService = userQueryService;
+        this.userAdderService = userAdderService;
+        this.userUpdaterService = userUpdaterService;
     }
 
     /**
@@ -46,7 +52,7 @@ public class UserManagementController {
     }
 
     @GetMapping("get_by_id")
-    public ResponseEntity<ApiResponse<?>> fetchUserById(@RequestParam Integer userId){
+    public ResponseEntity<ApiResponse<?>> fetchUserById(@RequestParam Long userId){
         UserResponseDTO user = userQueryService.getUserById(userId);
 
         ApiResponse<?> response = new ApiResponse<>(
@@ -65,7 +71,7 @@ public class UserManagementController {
 
     @PostMapping("/new")
     public ResponseEntity<ApiResponse<NewUserResponseDTO>> addNewUser(@Valid @RequestBody NewUserRequestDTO newUserRequestDTO) {
-        NewUserResponseDTO user = userService.newUser(newUserRequestDTO);
+        NewUserResponseDTO user = userAdderService.addUser(newUserRequestDTO);
 
         ApiResponse<NewUserResponseDTO> response = new ApiResponse<>(
                 true,
@@ -84,8 +90,8 @@ public class UserManagementController {
      * @return
      */
     @PutMapping("update")
-    public ResponseEntity<ApiResponse<?>> updateUser(@RequestParam Integer userId, @RequestBody UpdateUserDTO updateUserDTO){
-        UserResponseDTO updateUser = userService.updateUser(userId,updateUserDTO);
+    public ResponseEntity<ApiResponse<?>> updateUser(@RequestParam Long userId, @RequestBody UpdateUserDTO updateUserDTO){
+        UserResponseDTO updateUser = userUpdaterService.updateUser(userId,updateUserDTO);
 
         ApiResponse<?> response = new ApiResponse<>(
                 true,
@@ -104,6 +110,7 @@ public class UserManagementController {
      * @param id
      * @return
      */
+    /*
     @DeleteMapping("delete/{id}")
     public ResponseEntity<ApiResponse<?>> removeUser(@PathVariable Integer id){
         userService.removeUser(id);
@@ -116,6 +123,8 @@ public class UserManagementController {
                 ));
     }
 
+     */
+    /*
     @GetMapping("/exists")
     public ResponseEntity<ApiResponse<?>> checkUserExistence(@RequestParam String email){
         boolean userExists = userService.checkExistence(email);
@@ -129,6 +138,9 @@ public class UserManagementController {
                 .body(response);
     }
 
+     */
+
+    /*
     @GetMapping("verify")
     public ResponseEntity<ApiResponse<?>> verify(@RequestParam String email, @RequestParam String password){
         boolean userVerified = userService.verifyUserCredentials(email,password);
@@ -144,9 +156,11 @@ public class UserManagementController {
                 .body(response);
     }
 
+     */
+
     @PostMapping("get-users")
     public ResponseEntity<ApiResponse<List<UserResponseDTO>>> getUsers(@RequestBody List<Integer> ids){
-        List<UserResponseDTO> users = userService
+        List<UserResponseDTO> users = userQueryService
                 .getUsers(ids);
 
         return ResponseEntity

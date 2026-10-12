@@ -1,6 +1,7 @@
 package com.healthcare.user_management.init;
 
 
+import com.healthcare.user_management.modules.user_management.model.Role;
 import com.healthcare.user_management.modules.user_management.model.RoleEnum;
 import com.healthcare.user_management.modules.user_management.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -4,6 +4,7 @@ import com.healthcare.user_management.exception.UserNotFoundException;
 import com.healthcare.user_management.modules.auth.dto.LoginRequestDto;
 import com.healthcare.user_management.modules.auth.dto.LoginResponseDto;
 import com.healthcare.user_management.modules.auth.exception.AuthenticationFailedException;
+import com.healthcare.user_management.modules.auth.exception.InvalidCredentialsException;
 import com.healthcare.user_management.modules.auth.service.AuthenticationService;
 import com.healthcare.user_management.modules.user_management.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -37,7 +38,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         assert user != null;
         // Password and account lock check
         if(passwordEncoder.matches(user.getPassword(), requestDto.getPassword())){
-            throw new AuthenticationFailedException();
+            throw new InvalidCredentialsException("Invalid password or username");
         };
 
         // If the user is authenticated, generate access and refresh tokens:

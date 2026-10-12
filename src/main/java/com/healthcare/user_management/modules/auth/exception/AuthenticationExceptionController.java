@@ -1,5 +1,6 @@
 package com.healthcare.user_management.modules.auth.exception;
 
+import com.healthcare.user_management.dto.ApiResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -14,6 +15,18 @@ public class AuthenticationExceptionController {
         return ResponseEntity.status(403)
                 .body(Map.of(
                         "", ""
+                ));
+    }
+
+    @ExceptionHandler(InvalidCredentialsException.class)
+    public ResponseEntity<ApiResponse> handleInvalidCredentialsException(
+            InvalidCredentialsException exception
+    ){
+        return ResponseEntity.status(403)
+                .body(new ApiResponse(
+                        false,
+                        exception.getMessage(),
+                        null
                 ));
     }
 }

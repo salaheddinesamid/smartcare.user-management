@@ -1,5 +1,6 @@
 package com.healthcare.user_management.modules.auth.controller;
 
+import com.healthcare.user_management.dto.ApiResponse;
 import com.healthcare.user_management.modules.auth.dto.LoginRequestDto;
 import com.healthcare.user_management.modules.auth.dto.LoginResponseDto;
 import com.healthcare.user_management.modules.auth.service.implementation.AuthenticationServiceImpl;
@@ -21,10 +22,14 @@ public class AuthenticationController {
     }
 
     @PostMapping("")
-    public ResponseEntity<Object> authenticate(@RequestBody LoginRequestDto requestDto){
+    public ResponseEntity<ApiResponse> authenticate(@RequestBody LoginRequestDto requestDto){
         LoginResponseDto response = authenticationService.authenticate(requestDto);
 
         return ResponseEntity.status(200)
-                .body(response);
+                .body(new ApiResponse(
+                      true,
+                      "",
+                      response
+                ));
     }
 }
