@@ -25,6 +25,7 @@ public class JwtUtilities {
 
     // Expiration time:
     private final Long jwtExpiration = 36000000L;
+    private final Long refreshExpiration = 30L * 24 * 60 * 60 * 1000;
 
     /** Extracts the username from the JWT token.
      *
@@ -137,6 +138,17 @@ public class JwtUtilities {
                 .setSubject(email)
                 .claim("roles",roles)
                 .setExpiration(new Date(System.currentTimeMillis() + 6 * 60 * 60 * 1000))
+                .signWith(SignatureAlgorithm.HS256,secret)
+                .compact();
+    }
+
+    public String generateRefreshToken(
+            String email, List<String> roles
+    ){
+        return Jwts.builder()
+                .setSubject(email)
+                .claim("roles",roles)
+                .setExpiration(new Date(System.currentTimeMillis() + refreshExpiration))
                 .signWith(SignatureAlgorithm.HS256,secret)
                 .compact();
     }
