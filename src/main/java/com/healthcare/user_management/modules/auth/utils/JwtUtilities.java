@@ -24,7 +24,7 @@ public class JwtUtilities {
     private String secret;
 
     // Expiration time:
-    private final Long jwtExpiration = 36000000L;
+    public final Long jwtExpiration = 36000000L;
     private final Long refreshExpiration = 30L * 24 * 60 * 60 * 1000;
 
     /** Extracts the username from the JWT token.

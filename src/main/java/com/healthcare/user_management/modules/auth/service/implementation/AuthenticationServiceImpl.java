@@ -3,7 +3,6 @@ package com.healthcare.user_management.modules.auth.service.implementation;
 import com.healthcare.user_management.exception.UserNotFoundException;
 import com.healthcare.user_management.modules.auth.dto.LoginRequestDto;
 import com.healthcare.user_management.modules.auth.dto.LoginResponseDto;
-import com.healthcare.user_management.modules.auth.exception.AuthenticationFailedException;
 import com.healthcare.user_management.modules.auth.exception.InvalidCredentialsException;
 import com.healthcare.user_management.modules.auth.service.AuthenticationService;
 import com.healthcare.user_management.modules.auth.utils.JwtUtilities;
@@ -12,6 +11,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
@@ -45,15 +46,24 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             throw new InvalidCredentialsException("Invalid password or username");
         };
 
+            List<String> roles = user.getAuthorities()
+                .stream().map(GrantedAuthority::getAuthority)
+                .toList();
         // If the user is authenticated, generate access and refresh tokens:
         String accessToken = jwtUtilities.generateToken(
                 user.getUsername(),
-                user.getAuthorities().stream().map(GrantedAuthority::getAuthority)
+                roles
         );
-        String refreshToken = jwtUtilities.generateRefreshToken();
+        String refreshToken = jwtUtilities.generateRefreshToken(
+                user.getUsername(),
+                roles
+        );
 
         return new LoginResponseDto(
-
+                accessToken,
+                refreshToken,
+                "ACCESS",
+                jwtUtilities.jwtExpiration
         );
     }
 }

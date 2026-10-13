@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
@@ -35,27 +36,32 @@ public class User implements UserDetails {
     @Column(name = "password")
     private String password;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "role_id")
-    private Role role;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private List<Role> userRoles;
 
     public User(
             String firstName,
             String lastName,
             String email,
             String password,
-            Role roleName
+            List<Role> roles
     ) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
-        this.role = roleName;
+        this.userRoles = roles;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
+        return userRoles.stream().map(role -> new SimpleGrantedAuthority(role.getRoleName().toString())).toList();
+
     }
 
     @Override
@@ -82,4 +88,9 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return UserDetails.super.isEnabled();
     }
+
+    public List<Role> getRoles(){
+        return this.userRoles;
+    }
+
 }

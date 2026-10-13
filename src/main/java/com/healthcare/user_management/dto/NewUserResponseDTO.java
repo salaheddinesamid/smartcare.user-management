@@ -22,7 +22,7 @@ public class NewUserResponseDTO {
         this.firstName = user.getFirstName();
         this.lastName = user.getLastName();
         this.email = user.getEmail();
-        this.role = user.getRole().getRoleName().toString();
+        this.role = null;
         this.password = user.getPassword();
     }
 

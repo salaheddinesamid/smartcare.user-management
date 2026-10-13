@@ -3,6 +3,8 @@ package com.healthcare.user_management.dto;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class NewUserRequestDTO {
 
@@ -10,5 +12,5 @@ public class NewUserRequestDTO {
     private String lastName;
     private String email;
     private String password;
-    private String roleName;
+    private List<String> roles;
 }
